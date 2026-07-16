@@ -5,6 +5,13 @@ import Logo from "../assets/logo.png"
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
 
+    const navItems = [
+        {name: "Work", path: "/"},
+        {name: "About", path: "/about"},
+        {name: "Playground", path: "/playground"},
+        {name: "Resource", path: "/resource"}
+    ];
+
     useEffect(()=> {
         const handleResize = () => {
             if(window.innerwidth>=768){
@@ -19,28 +26,55 @@ const Navbar = () => {
 
   return (
     <header className='m-10'>
-     <div className='max-w-7xl bg-black text-white mx-auto px-5 rounded-full'>
+     <div className='w-full bg-gray-900 text-white mx-auto px-3 rounded-3xl'>
       <div className='h-20 flex justify-between items-center'>
 
       {/*logo*/}
+      <NavLink to="/">
       <img src={Logo} alt="Logo" className="w-15 h-15 object-cover rounded-full"/>
+      </NavLink>
 
-      {/*desktop navlinks*/}
-      <nav className='hidden md:flex gap-8'>
-        <NavLink to="/">Work</NavLink>
-        <NavLink to="/about">About</NavLink>
-        <NavLink to="/playground">Playground</NavLink>
-        <NavLink to="/resource">Resource</NavLink>
+      {/*Desktop Menu*/}
+      <nav className='hidden md:flex gap-20'>
+
+        {navItems.map((item)=>(
+            <NavLink
+                key={item.path}
+                to={item.path}
+                className={({isActive})=>
+                `relative font-medium transition-all duration-300 cursor-pointer
+                ${
+                    isActive ? "text-blue-600"
+                    : "hover:text-blue-600"
+                }
+                after:absolute
+                after:left-0
+                after:-bottom-1
+                after:h-[2px]
+                after:bg-blue-600
+                after:transition-all
+                after:duration-300
+                ${
+                    isActive ? "after:w-full" : "after:w-0 hover:after:w-full"
+                }
+
+                `}
+
+
+            >{item.name}</NavLink>
+        ))}
+
+        
       </nav>
 
-      {/* button */}
-      <button className='hidden md:block bg-white hover:bg-blue-500 text-black px-6 py-2 rounded-full cursor-pointer'>
+      {/*Login button */}
+      <button className='font-medium hidden md:block w-35 bg-white hover:bg-blue-500 text-black px-6 py-2 rounded-full cursor-pointer'>
         Login
       </button>
 
        {/* Hamburger menu */}
 
-       <button className='bg-black md:hidden text-3xl' onClick={()=>setIsOpen(!isOpen)}>
+       <button className='md:hidden text-3xl' onClick={()=>setIsOpen(!isOpen)}>
         {isOpen ? "✕" : "☰" }
        </button>
       </div>
@@ -48,11 +82,20 @@ const Navbar = () => {
       {/*Mobile menu*/}
       {isOpen && (
         <div className='md:hidden text-white border-t'>
-            <NavLink to="/" className='block px-6 py-4 hover:bg-gray-100'>Work</NavLink>
-            <NavLink to="/about" className='block px-6 py-4 hover:bg-gray-100'>About</NavLink>
-            <NavLink to="/playground" className='block px-6 py-4 hover:bg-gray-100'>Playground</NavLink>
-            <NavLink to="/resource" className='block px-6 py-4 hover:bg-gray-100'>Resource</NavLink>
-            <button className='md:hidden md:block bg-white w-full mb-4 hover:bg-blue-500 text-black px-6 py-2 rounded-full cursor-pointer'>
+            {navItems.map((item)=>(
+            <NavLink
+                key={item.path}
+                to={item.path}
+                onClick={()=>setIsOpen(false)}
+                className={({isActive})=>`block px-6 py-4 transition-all duration-300 cursor-pointer
+                ${
+                    isActive ? "text-blue-600":"hover:bg-gray-700 hover:text-blue-600 mb-4"
+
+                }
+                `}
+            >{item.name}</NavLink>
+        ))}
+            <button className="font-medium w-full bg-blue-600 mb-4 py-3 rounded-lg cursor-pointer">
                 Login
             </button>
         </div>
