@@ -2,7 +2,7 @@
 
 const Resource = () => {
   return (
-    <div className='text-yellow-400'>This is resource page</div>
+    <div className='text-black text-center text-2xl font-bold uppercase'>This is resource page</div>
   )
 }
 
